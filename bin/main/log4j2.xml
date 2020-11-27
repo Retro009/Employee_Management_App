@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <SMTP name="MailAppender"
+		     subject="Log4j2 Demo [PROD]"
+		     to="jeeshannick@gmail.com"
+		     from="jeeshannick@gmail.com"
+		     smtpHost="smtp.gmail.com"
+		     smtpPort="587"
+		     smtpUsername="jeeshannick@gmail.com"
+		     smtpPassword="yourSMTPPassword"
+	 		 bufferSize="4">
+		    <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+		    <PatternLayout>
+		        <Pattern>${LOG_PATTERN}</Pattern>
+		    </PatternLayout>
+		</SMTP>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.jami.app" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
